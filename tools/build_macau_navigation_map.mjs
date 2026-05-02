@@ -3,23 +3,23 @@ import fs from "node:fs/promises";
 const outHtml = new URL("../macau-navigation-routes.html", import.meta.url);
 
 const images = {
-  hengqin: ["横琴口岸", "https://upload.wikimedia.org/wikipedia/commons/9/95/Ponte_de_Acesso_Que_Liga_a_Universidade_de_Macau_e_o_Posto_Fronteiri%C3%A7o_Hengqin_20230926.jpg", "Wikimedia Commons"],
-  cotai: ["路氹外景", "https://upload.wikimedia.org/wikipedia/commons/9/94/The_Parisian_Macao.jpg", "Wikimedia Commons"],
-  londoner: ["伦敦人", "https://upload.wikimedia.org/wikipedia/commons/6/61/THE_LONDONER_MACAU_1.jpg", "Wikimedia Commons"],
-  venetian: ["威尼斯人", "https://upload.wikimedia.org/wikipedia/commons/8/8d/Venetian_Macau.jpg", "Wikimedia Commons"],
-  taipa: ["官也街/氹仔旧城", "https://upload.wikimedia.org/wikipedia/commons/4/40/Rua_do_Cunha.jpg", "Wikimedia Commons"],
-  ama: ["妈阁庙", "https://upload.wikimedia.org/wikipedia/commons/9/9c/A-Ma_Temple_Macao_1844_%281%29.jpg", "Wikimedia Commons"],
-  mandarin: ["郑家大屋", "https://upload.wikimedia.org/wikipedia/commons/5/54/Mandarin%27s_House%2C_2023_%2806%29.jpg", "Wikimedia Commons"],
-  lilau: ["亚婆井前地", "https://upload.wikimedia.org/wikipedia/commons/3/31/Lilau_Square.jpg", "Wikimedia Commons"],
-  senado: ["议事亭前地", "https://upload.wikimedia.org/wikipedia/commons/f/f7/Centre_of_Makau.jpg", "Wikimedia Commons"],
-  felicidade: ["福隆新街", "https://upload.wikimedia.org/wikipedia/commons/3/3a/Macau_Rua_da_Felicidade_Mo707_1a.jpg", "Wikimedia Commons"],
-  stdominic: ["玫瑰堂", "https://upload.wikimedia.org/wikipedia/commons/8/83/St._Dominic%27s_Church%2C_Macau_%28Ank_lunar%29_02.jpg", "Wikimedia Commons"],
-  stpaul: ["大三巴", "https://upload.wikimedia.org/wikipedia/commons/4/40/Ruins_of_Saint_Paul%27s%2C_Macau_%28Ank_Kumar%29_10.jpg", "Wikimedia Commons"],
-  natcha: ["哪吒庙", "https://upload.wikimedia.org/wikipedia/commons/c/cd/Templo_Na_Tcha%2C_Macao%2C_2013-08-08%2C_DD_02.jpg", "Wikimedia Commons"],
-  margaret: ["玛嘉烈蛋挞", "https://upload.wikimedia.org/wikipedia/commons/2/28/MARGARET%E2%80%99S_CAFE_e_NATA%2C_Macau%2C_%E7%91%AA%E5%98%89%E7%83%88%E8%9B%8B%E6%92%BB%2C_%E7%91%AA%E5%98%89%E7%83%88%2C_%E6%96%B0%E9%A6%AC%E8%B7%AF%2C_%E6%BE%B3%E9%96%80_%2817310271471%29.jpg", "Wikimedia Commons"],
-  lisboa: ["新葡京", "https://upload.wikimedia.org/wikipedia/commons/4/46/Macao_Grand_Lisboa200712.jpg", "Wikimedia Commons"],
-  wynn: ["永利澳门", "https://upload.wikimedia.org/wikipedia/commons/c/cf/Wynn_Macau_Resort.jpg", "Wikimedia Commons"],
-  ferry: ["氹仔码头", "https://upload.wikimedia.org/wikipedia/commons/e/e6/Taipa_Ferry_Terminal_201608.jpg", "Wikimedia Commons"]
+  hengqin: ["横琴口岸", "images/hengqin.jpg", "Wikimedia Commons 本地压缩副本"],
+  cotai: ["路氹外景", "images/cotai.jpg", "Wikimedia Commons 本地压缩副本"],
+  londoner: ["伦敦人", "images/londoner.jpg", "Wikimedia Commons 本地压缩副本"],
+  venetian: ["威尼斯人", "images/venetian.jpg", "Wikimedia Commons 本地压缩副本"],
+  taipa: ["官也街/氹仔旧城", "images/taipa.jpg", "Wikimedia Commons 本地压缩副本"],
+  ama: ["妈阁庙", "images/ama.jpg", "Wikimedia Commons 本地压缩副本"],
+  mandarin: ["郑家大屋", "images/mandarin.jpg", "Wikimedia Commons 本地压缩副本"],
+  lilau: ["亚婆井前地", "images/lilau.jpg", "Wikimedia Commons 本地压缩副本"],
+  senado: ["议事亭前地", "images/senado.jpg", "Wikimedia Commons 本地压缩副本"],
+  felicidade: ["福隆新街", "images/felicidade.jpg", "Wikimedia Commons 本地压缩副本"],
+  stdominic: ["玫瑰堂", "images/stdominic.jpg", "Wikimedia Commons 本地压缩副本"],
+  stpaul: ["大三巴", "images/stpaul.jpg", "Wikimedia Commons 本地压缩副本"],
+  natcha: ["哪吒庙", "images/natcha.jpg", "Wikimedia Commons 本地压缩副本"],
+  margaret: ["玛嘉烈蛋挞", "images/margaret.jpg", "Wikimedia Commons 本地压缩副本"],
+  lisboa: ["新葡京", "images/lisboa.jpg", "Wikimedia Commons 本地压缩副本"],
+  wynn: ["永利澳门", "images/wynn.jpg", "Wikimedia Commons 本地压缩副本"],
+  ferry: ["氹仔码头", "images/ferry.jpg", "Wikimedia Commons 本地压缩副本"]
 };
 
 const points = {
@@ -287,7 +287,7 @@ function html() {
     </section>
     <section class="timeline" id="timeline"></section>
     <section class="sources">
-      <strong>依据：</strong>道路几何来自 OSRM/OpenStreetMap；轻轨段按澳门轻轨官方站点关系近似；图片来自 Wikimedia Commons；交通和开放时间参考
+      <strong>依据：</strong>道路几何来自 OSRM/OpenStreetMap；轻轨段按澳门轻轨官方站点关系近似；图片已下载为本地压缩副本，来源为 Wikimedia Commons；交通和开放时间参考
       <a href="https://www.mlm.com.mo/en/route.html">澳门轻轨官方路线</a>、
       <a href="https://www.wh.gov.mo/en/site/detail/1">澳门世界遗产官方页</a>、
       <a href="https://guide.michelin.com/sg/en/macau-region/macau/restaurant/cheong-kei">MICHELIN 祥记面家</a>。
