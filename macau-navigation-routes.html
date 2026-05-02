@@ -144,7 +144,7 @@ function popupHtml(stop, key) {
 }
 function addRoute(key) {
   const route = routes[key];
-  const group = L.layerGroup().addTo(map);
+  const group = L.layerGroup();
   route.segmentData.forEach(seg => {
     const style = modeStyle[seg.mode];
     const line = L.polyline(seg.coords, { ...style, lineCap:"round", lineJoin:"round" }).addTo(group);
@@ -173,11 +173,8 @@ function render(key) {
     return `<div class="stop" style="border-left-color:${route.color}"><div class="top"><div class="name">${stop[0]} · ${p.name}</div><div class="time">${stop[2]}</div></div><div class="note">${stop[3]}</div></div>`;
   }).join("");
   Object.entries(layers).forEach(([routeKey, layer]) => {
-    layer.eachLayer(item => {
-      if (item.setStyle) item.setStyle({ opacity: routeKey === key ? (item.options.dashArray ? .95 : .9) : .18, weight: routeKey === key ? item.options.weight : 2 });
-      const el = item.getElement?.();
-      if (el) el.style.opacity = routeKey === key ? "1" : ".32";
-    });
+    if (routeKey === key && !map.hasLayer(layer)) layer.addTo(map);
+    if (routeKey !== key && map.hasLayer(layer)) map.removeLayer(layer);
   });
   const bounds = L.latLngBounds([]);
   route.segmentData.forEach(seg => seg.coords.forEach(c => bounds.extend(c)));
