@@ -163,7 +163,8 @@ const routeDefs = {
 };
 
 async function osrm(profile, a, b) {
-  const url = `https://router.project-osrm.org/route/v1/${profile}/${a.lng},${a.lat};${b.lng},${b.lat}?overview=full&geometries=geojson`;
+  const baseUrl = profile === "foot" ? "https://routing.openstreetmap.de/routed-foot" : "https://router.project-osrm.org";
+  const url = `${baseUrl}/route/v1/${profile}/${a.lng},${a.lat};${b.lng},${b.lat}?overview=full&geometries=geojson`;
   const res = await fetch(url, { headers: { "User-Agent": "Codex Macau personal route map/1.0" } });
   const data = await res.json();
   if (data.code !== "Ok" || !data.routes?.[0]) throw new Error(`OSRM failed ${profile} ${a.name} -> ${b.name}: ${data.code}`);
@@ -189,10 +190,22 @@ async function enrich() {
       } else {
         data = { distance: null, duration: null, coords: manual };
       }
-      route.segmentData.push({ mode, fromKey, toKey, ...data });
+      route.segmentData.push({ mode, fromKey, toKey, ...data, displayMinutes: estimateMinutes(mode, data) });
     }
   }
   return output;
+}
+
+function estimateMinutes(mode, data) {
+  if (mode === "walk" && data.distance) {
+    const walkingMetersPerMinute = 70;
+    return Math.max(3, Math.ceil(data.distance / walkingMetersPerMinute));
+  }
+  if (mode === "taxi" && data.duration) {
+    const movingMinutes = Math.ceil(data.duration / 60);
+    return Math.max(10, Math.ceil(movingMinutes * 1.35) + 4);
+  }
+  return null;
 }
 
 const routes = await enrich();
@@ -351,7 +364,7 @@ function addRoute(key) {
     addArrow(group, seg.coords, style.color);
     const from = points[seg.fromKey], to = points[seg.toKey];
     const modeName = seg.mode === "walk" ? "步行" : seg.mode === "taxi" ? "打车" : "轻轨";
-    const meta = seg.distance ? \`\${(seg.distance / 1000).toFixed(1)} km · 约 \${Math.max(1, Math.round(seg.duration / 60))} 分钟\` : "站点轨迹近似";
+    const meta = seg.distance ? \`\${(seg.distance / 1000).toFixed(1)} km · 约 \${seg.displayMinutes} 分钟\` : "站点轨迹近似";
     line.bindTooltip(\`\${modeName}：\${from.name} → \${to.name}｜\${meta}\`, { sticky:true });
   });
   route.stops.forEach(stop => {
