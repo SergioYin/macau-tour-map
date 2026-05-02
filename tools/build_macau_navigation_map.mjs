@@ -156,29 +156,35 @@ const routeDefs = {
     ]
   },
   C: {
-    title: "方案 C：少折腾舒适线",
+    title: "方案 C：综合推荐线",
     color: "#f97316",
-    summary: "缩短历史城区步行，把早餐、路氹外景和半岛经典点压成半天多一点。天气热、口岸慢、体力一般时用这一条。",
+    summary: "把朋友推荐的路氹精华和第一次来澳门的半岛经典点合并：上午从路氹东扫永利皇宫、美狮美高梅、伦敦人、巴黎人、威尼斯人；中午用发财车到澳门金沙，再接议事亭、福隆新街午餐、大三巴，最后去氹仔码头。",
     stops: [
-      ["C1", "hengqin", "07:00-07:45", "过关后先留在氹仔/路氹一侧，不急着进半岛。"],
-      ["C2", "taipa", "08:15-09:05", "早餐：茶餐厅/猪扒包，吃完再看路氹外景。"],
-      ["C3", "cotai", "09:20-09:55", "巴黎人、伦敦人、威尼斯人外立面。"],
-      ["C4", "ama", "10:40-11:10", "轻轨到妈阁，作为半岛入口。"],
-      ["C5", "senado", "11:35-12:05", "直接进入核心区，不安排亚婆井支线。"],
-      ["C6", "felicidade", "12:15-13:15", "午餐：面家/茶餐厅，坐下休息。"],
-      ["C7", "stpaul", "13:35-14:20", "只做大三巴和旁边小点，不继续扩展。"],
-      ["C8", "lisboaWynn", "14:45-15:35", "喝东西/室内休息，15:45 必须往码头移动。"],
-      ["C9", "ferry", "16:20 前", "17:15 开船。此方案机动时间最多。"]
+      ["C1", "hengqin", "07:00-07:45", "横琴口岸过关后，轻轨/交通接路氹东。"],
+      ["C2", "cotaiEast", "08:10-08:20", "到路氹东后开始路氹娱乐城段。"],
+      ["C3", "wynnPalace", "08:20-08:45", "永利皇宫喷泉和缆车；缆车开放、排队以现场为准。"],
+      ["C4", "mgmCotai", "08:55-09:20", "美狮美高梅；免费网红奶茶按现场活动和排队为准。"],
+      ["C5", "londonerClock", "09:35-09:55", "伦敦人大本钟和外立面拍照。"],
+      ["C6", "parisianTower", "10:00-10:20", "巴黎人埃菲尔铁塔拍照。"],
+      ["C7", "venetianCanal", "10:35-11:10", "威尼斯人大运河和室内街景。"],
+      ["C8", "sandsMacao", "11:10-11:50", "默认从威尼斯人/巴黎人/伦敦人一带坐发财车到澳门金沙；如果现场美狮美高梅去澳门美高梅更空，可按 D 线备选走。"],
+      ["C9", "senado", "12:05-12:25", "从金沙短交通进历史城区核心。"],
+      ["C10", "felicidade", "12:30-13:30", "午餐：祥记面家/周边茶餐厅，坐下休息。"],
+      ["C11", "stpaul", "13:45-14:30", "大三巴、哪吒庙、旧城墙短线。"],
+      ["C12", "ferry", "16:20 前", "17:15 开船；15:45 必须开始往码头移动。"]
     ],
     segments: [
-      ["taxi", "hengqin", "taipa"],
-      ["walk", "taipa", "cotai"],
-      ["lrt", "cotai", "ama", [...lrt.cotaiToFerry.slice(0, 2), [22.1602, 113.5459], [22.1743, 113.5366], [22.1861086, 113.5312671]]],
-      ["walk", "ama", "senado"],
+      ["lrt", "hengqin", "cotaiEast", lrt.hengqinToCotaiEast],
+      ["walk", "cotaiEast", "wynnPalace"],
+      ["walk", "wynnPalace", "mgmCotai"],
+      ["walk", "mgmCotai", "londonerClock"],
+      ["walk", "londonerClock", "parisianTower"],
+      ["walk", "parisianTower", "venetianCanal"],
+      ["shuttle", "venetianCanal", "sandsMacao"],
+      ["taxi", "sandsMacao", "senado"],
       ["walk", "senado", "felicidade"],
       ["walk", "felicidade", "stpaul"],
-      ["walk", "stpaul", "lisboaWynn"],
-      ["taxi", "lisboaWynn", "ferry"]
+      ["taxi", "stpaul", "ferry"]
     ]
   },
   D: {
@@ -341,7 +347,7 @@ function html() {
     <h1>澳门导航式单笔画路线图</h1>
     <p class="subtitle">这版不再用直线连接，而是把步行、打车尽量贴到道路；轻轨段用站点轨迹近似，并单独标色。点开每个打卡点可看图片和说明。</p>
     <div class="warning"><strong>返程警戒：</strong>15:45 开始往氹仔码头移动；16:20 前到码头。你的船是 17:15。</div>
-    <div class="tabs"><button class="active" data-route="A">A 推荐</button><button data-route="B">B 历史优先</button><button data-route="C">C 舒适</button><button data-route="D">D 朋友线</button></div>
+    <div class="tabs"><button class="active" data-route="A">A 推荐</button><button data-route="B">B 历史优先</button><button data-route="C">C 综合</button><button data-route="D">D 朋友线</button></div>
     <section class="route-card" id="route-summary"></section>
     <section class="mode-card">
       <strong>线型说明</strong>
